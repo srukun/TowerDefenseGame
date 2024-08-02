@@ -1,0 +1,36 @@
+{
+  "team": [
+    {
+      "ID": "5b18c8ac-b162-4bf3-86d8-094f6cee5bb8",
+      "name": "Cotton",
+      "level": 5,
+      "experience": 0.0,
+      "baseHealth": 18.0,
+      "currentHealth": 18.0,
+      "speed": 5.0,
+      "damage": 5.0,
+      "nextLevelExpThreshold": 132.6152,
+      "expThresholdIncrease": 1.45,
+      "healthIncrease": 4.0,
+      "damageIncrease": 1.5,
+      "isActive": true,
+      "moveSet": [
+        {
+          "moveName": "Punch",
+          "moveType": "Basic",
+          "moveDamage": 1.0,
+          "attackRate": 0.33,
+          "moveSpeed": 8.0
+        },
+        null,
+        null
+      ],
+      "activeMoveIndex": 0
+    },
+    null,
+    null,
+    null,
+    null
+  ],
+  "collection": []
+}
