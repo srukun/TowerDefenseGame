@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
         healthbar.transform.localScale = new Vector3(thisCreature.currentHealth/thisCreature.baseHealth, 0.1f, 1);
     }
 
-    public void KillSelf()
+    public void RemoveEnemyFromScene()
     {
         if(appleCarrypoint.transform.childCount > 0)
         {
@@ -86,6 +86,14 @@ public class EnemyController : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool(parameterName, value);
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        thisCreature.TakeDamage(damage);
+        if(thisCreature.currentHealth <= 0)
+        {
+            RemoveEnemyFromScene();
         }
     }
 }

@@ -7,7 +7,7 @@ public class MonsterController : MonoBehaviour
 {
     public Monster monster;
     public GameObject levelManager;
-    public GameObject healthbar;
+    public GameObject[] healthbar;
     public GameObject movesetUI;
     public GameObject attackPoint;
     public LayerMask enemyLayer;
@@ -17,12 +17,14 @@ public class MonsterController : MonoBehaviour
     //attack
     public float attackRate;
     public GameObject[] moves;
+    public GameObject canvas;
 
 
     void Start()
     {
         UpdateHealthbar();
         attackRate = monster.moveSet[monster.activeMoveIndex].attackRate;
+
     }
 
     void Update()
@@ -34,7 +36,6 @@ public class MonsterController : MonoBehaviour
             if (enemiesInRange.Length > 0)
             {
                 Transform nearestEnemy = GetNearestEnemy(enemiesInRange);
-
                 if (nearestEnemy != null)
                 {
                     Attack(nearestEnemy.gameObject);
@@ -47,14 +48,21 @@ public class MonsterController : MonoBehaviour
             attackRate -= Time.deltaTime;
         }
     }
-    public void CreateMoveset(Vector3 spawnPoint)
+    public void CreateMoveset(GameObject canvas, Vector3 movesetPosition)
     {
-        GameObject moveset = Instantiate(movesetUI, new Vector3(spawnPoint.x, -4.33f, spawnPoint.z), Quaternion.identity);
-        moveset.GetComponent<Moveset>().monsterController = this;
+        this.canvas = canvas;
+        GameObject moveset = Instantiate(movesetUI, new Vector3(0, 0, 0), Quaternion.identity);
+        moveset.transform.SetParent(canvas.transform, false);
+        moveset.transform.position = movesetPosition;
+        moveset.GetComponent<MovesetManager>().monster = monster;
+        moveset.GetComponent<MovesetManager>().monsterController = this;
+
     }
     public void UpdateHealthbar()
     {
-        healthbar.transform.localScale = new Vector3(monster.currentHealth / monster.baseHealth, 0.1f, 1);
+        healthbar[0].transform.localScale = new Vector3(monster.currentHealth / monster.baseHealth, 0.1f, 1);
+        healthbar[1].transform.localScale = new Vector3(monster.currentHealth / monster.baseHealth, 0.1f, 1);
+
     }
     private Transform GetNearestEnemy(Collider2D[] enemies)
     {
@@ -71,7 +79,6 @@ public class MonsterController : MonoBehaviour
                 minDistance = distance;
             }
         }
-
         return nearestEnemy;
     }
 
@@ -82,9 +89,14 @@ public class MonsterController : MonoBehaviour
             switch (monster.moveSet[monster.activeMoveIndex].moveName)
             {
                 case "Punch":
-                    GameObject move = Instantiate(moves[0], attackPoint.transform.position, Quaternion.identity);
-                    move.GetComponent<MoveController>().target = nearestEnemy;
-                    move.GetComponent<MoveController>().monster = monster;
+                    GameObject punch = Instantiate(moves[0], attackPoint.transform.position, Quaternion.identity);
+                    punch.GetComponent<MoveController>().target = nearestEnemy;
+                    punch.GetComponent<MoveController>().monster = monster;
+                    break;
+                case "Thunder Punch":
+                    GameObject thunderPunch = Instantiate(moves[1], attackPoint.transform.position, Quaternion.identity);
+                    thunderPunch.GetComponent<MoveController>().target = nearestEnemy;
+                    thunderPunch.GetComponent<MoveController>().monster = monster;
                     break;
             }
         }

@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.53411263, g: 0.754717, b: 0.35243857, a: 1}
+  m_Color: {r: 0.7764706, g: 0.9647059, b: 0.37254903, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -349,8 +349,10 @@ MonoBehaviour:
     isActive: 0
     activeMoveIndex: 0
   levelManager: {fileID: 0}
-  healthbar: {fileID: 1334720077528004111}
-  movesetUI: {fileID: 6111232362742885981, guid: 3cf5dcb9a78806346873fcc05d885f80, type: 3}
+  healthbar:
+  - {fileID: 4634517326380384321}
+  - {fileID: 1334720077528004111}
+  movesetUI: {fileID: 7586134054174443843, guid: c9dde03736e84ed45909a2e09c643fa2, type: 3}
   attackPoint: {fileID: 7632487340804787501}
   enemyLayer:
     serializedVersion: 2
@@ -359,6 +361,8 @@ MonoBehaviour:
   attackRate: 0
   moves:
   - {fileID: 7540758192433487114, guid: 4570a9f955ecbda4c8c2efec257ab203, type: 3}
+  - {fileID: 2981740504326036737, guid: b7bcef7fabaab1a48940f022977aa52c, type: 3}
+  canvas: {fileID: 0}
 --- !u!61 &6288178994612303005
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -47,7 +47,11 @@ public class DragAndDropUnit : MonoBehaviour
         }
         else
         {
-            transform.position = initialPosition; 
+            transform.position = initialPosition;
+            if (CompareTag("Creature"))
+            {
+                SetMonsterActive(GetComponent<MonsterController>().monster, false);
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -67,7 +71,7 @@ public class DragAndDropUnit : MonoBehaviour
             {
                 //catch
                 FileManager.TameMonster(monster.GetMonster());
-                collision.GetComponent<EnemyController>().KillSelf();
+                collision.GetComponent<EnemyController>().RemoveEnemyFromScene();
 
                 levelManager.GetComponent<LevelManager>().DeleteTeam();
                 levelManager.GetComponent<LevelManager>().SpawnTeam();
@@ -85,7 +89,8 @@ public class DragAndDropUnit : MonoBehaviour
                 unitSpot.SetOccupied(false);
                 if (CompareTag("Creature"))
                 {
-                    SetMonsterActive(GetComponent<MonsterController>().monster, true);
+                    SetMonsterActive(GetComponent<MonsterController>().monster, false);
+                    transform.position = initialPosition;
                 }
                 currentUnitSpot = null;
 

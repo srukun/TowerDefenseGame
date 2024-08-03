@@ -16,6 +16,10 @@ public class Apple : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if (!pickedup && collision.transform.tag == "Enemy" && collision.gameObject.GetComponent<EnemyController>().appleCarrypoint != null)
         {
             pickedup = true;
@@ -23,6 +27,5 @@ public class Apple : MonoBehaviour
             transform.position = collision.gameObject.GetComponent<EnemyController>().appleCarrypoint.transform.position;
         }
     }
-
 
 }

@@ -1,35 +1,137 @@
 {
   "team": [
     {
-      "ID": "5b18c8ac-b162-4bf3-86d8-094f6cee5bb8",
+      "ID": "7ea07748-2aeb-4462-ae43-8e6816bb30ce",
       "name": "Cotton",
-      "level": 5,
+      "level": 1,
       "experience": 0.0,
-      "baseHealth": 18.0,
-      "currentHealth": 18.0,
-      "speed": 5.0,
-      "damage": 5.0,
-      "nextLevelExpThreshold": 132.6152,
+      "baseHealth": 10.0,
+      "currentHealth": 10.0,
+      "speed": 1.0,
+      "damage": 1.5,
+      "nextLevelExpThreshold": 30.0,
       "expThresholdIncrease": 1.45,
       "healthIncrease": 4.0,
       "damageIncrease": 1.5,
-      "isActive": true,
+      "isActive": false,
       "moveSet": [
         {
           "moveName": "Punch",
           "moveType": "Basic",
-          "moveDamage": 1.0,
-          "attackRate": 0.33,
-          "moveSpeed": 8.0
+          "damage": 1.0,
+          "attackRate": 1.0,
+          "moveSpeed": 7.0
         },
-        null,
+        {
+          "moveName": "Thunder Punch",
+          "moveType": "Electric",
+          "damage": 1.25,
+          "attackRate": 1.0,
+          "moveSpeed": 11.0
+        },
         null
       ],
       "activeMoveIndex": 0
     },
-    null,
-    null,
-    null,
+    {
+      "ID": "5f359e70-bad1-46c6-bb63-7bf43469d8ca",
+      "name": "Cotton",
+      "level": 4,
+      "experience": 0.0,
+      "baseHealth": 13.75,
+      "currentHealth": 13.75,
+      "speed": 2.05,
+      "damage": 3.44999981,
+      "nextLevelExpThreshold": 91.4587555,
+      "expThresholdIncrease": 1.45,
+      "healthIncrease": 4.0,
+      "damageIncrease": 1.5,
+      "isActive": false,
+      "moveSet": [
+        {
+          "moveName": "Punch",
+          "moveType": "Basic",
+          "damage": 1.0,
+          "attackRate": 1.0,
+          "moveSpeed": 7.0
+        },
+        {
+          "moveName": "Thunder Punch",
+          "moveType": "Electric",
+          "damage": 1.25,
+          "attackRate": 1.0,
+          "moveSpeed": 11.0
+        },
+        null
+      ],
+      "activeMoveIndex": 0
+    },
+    {
+      "ID": "360422e5-706a-4677-b5ba-3df5b8f385d0",
+      "name": "Cotton",
+      "level": 4,
+      "experience": 0.0,
+      "baseHealth": 13.75,
+      "currentHealth": 13.75,
+      "speed": 2.05,
+      "damage": 3.44999981,
+      "nextLevelExpThreshold": 91.4587555,
+      "expThresholdIncrease": 1.45,
+      "healthIncrease": 4.0,
+      "damageIncrease": 1.5,
+      "isActive": false,
+      "moveSet": [
+        {
+          "moveName": "Punch",
+          "moveType": "Basic",
+          "damage": 1.0,
+          "attackRate": 1.0,
+          "moveSpeed": 7.0
+        },
+        {
+          "moveName": "Thunder Punch",
+          "moveType": "Electric",
+          "damage": 1.25,
+          "attackRate": 1.0,
+          "moveSpeed": 11.0
+        },
+        null
+      ],
+      "activeMoveIndex": 0
+    },
+    {
+      "ID": "bb53009e-3ecb-4582-ab0a-9adbebaf68ec",
+      "name": "Cotton",
+      "level": 2,
+      "experience": 0.0,
+      "baseHealth": 11.25,
+      "currentHealth": 11.25,
+      "speed": 2.35,
+      "damage": 2.15,
+      "nextLevelExpThreshold": 43.5,
+      "expThresholdIncrease": 1.45,
+      "healthIncrease": 4.0,
+      "damageIncrease": 1.5,
+      "isActive": false,
+      "moveSet": [
+        {
+          "moveName": "Punch",
+          "moveType": "Basic",
+          "damage": 1.0,
+          "attackRate": 1.0,
+          "moveSpeed": 7.0
+        },
+        {
+          "moveName": "Thunder Punch",
+          "moveType": "Electric",
+          "damage": 1.25,
+          "attackRate": 1.0,
+          "moveSpeed": 11.0
+        },
+        null
+      ],
+      "activeMoveIndex": 0
+    },
     null
   ],
   "collection": []

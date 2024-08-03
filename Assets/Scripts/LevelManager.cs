@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     public GameObject enemyPrefab; 
     public Transform spawnPoint;   
-    public int numberOfEnemies = 10; 
+    public int numberOfEnemies = 15; 
     public float spawnDuration = 45f; 
 
     private float spawnInterval; 
@@ -20,11 +20,14 @@ public class LevelManager : MonoBehaviour
     public int numberOfApples;
     public GameObject[] teamPrefabs;
     public List<GameObject> teamUnits;
+
+    public GameObject canvas;
+    public GameObject cam;
     void Start()
     {
         spawnPoint = waypoints[0];
         spawnInterval = spawnDuration / numberOfEnemies;
-        spawnCountdown = 0.75f;
+        spawnCountdown = 120f;
         ResetTeamActiveStatus();
         HealTeam();
         SpawnTeam();
@@ -63,7 +66,6 @@ public class LevelManager : MonoBehaviour
             enemy.GetComponent<EnemyController>().levelManager = GetComponent<LevelManager>();
             
             enemy.GetComponent<EnemyController>().thisCreature = new Monster("Cotton", Random.Range(1, 6));
-            enemy.GetComponent<EnemyController>().thisCreature.currentHealth = 1;
             spawnedEnemies++;
         }
     }
@@ -82,7 +84,7 @@ public class LevelManager : MonoBehaviour
     public void SpawnTeam()
     {
 
-        Vector3 spawnPoint = new Vector3(-4, -3.25f, -1);
+        Vector3 spawnPoint = new Vector3(-4, -2.75f, -1);
         LoadGameFile();
         foreach (var creature in gameFile.team)
         {
@@ -103,7 +105,10 @@ public class LevelManager : MonoBehaviour
                     teamUnits.Add(teamCreature);
 
                     //Spawn Movest
-                    monsterController.CreateMoveset(spawnPoint);
+                    spawnPoint.y -= 1.35f;
+                    monsterController.CreateMoveset(canvas, cam.GetComponent<Camera>().WorldToScreenPoint(spawnPoint));
+                    spawnPoint.y += 1.35f;
+
                 }
             }
             spawnPoint.x += 2;

@@ -13,19 +13,24 @@ public class MoveController : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, monster.moveSet[monster.activeMoveIndex].moveSpeed * Time.deltaTime);
+        if(target == null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, monster.moveSet[monster.activeMoveIndex].moveSpeed * Time.deltaTime);
+        }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Enemy")
         {
-            Debug.Log("damage");
-        }
-        Destroy(gameObject);
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+            collision.gameObject.GetComponent<EnemyController>().TakeDamage(monster.GetDamage());
+            Destroy(gameObject);
 
+        }
     }
 
 

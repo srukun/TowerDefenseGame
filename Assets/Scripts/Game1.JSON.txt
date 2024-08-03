@@ -1,0 +1,5 @@
+-Create 5 Monsters Total
+-Implement 5 Monsters
+-Implement State Machine
+-Implement Inventory
+-Implement Navagation
