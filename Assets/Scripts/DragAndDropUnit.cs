@@ -39,7 +39,7 @@ public class DragAndDropUnit : MonoBehaviour
             {
                 transform.position = new Vector3(currentUnitSpot.transform.position.x, currentUnitSpot.transform.position.y, -2);
                 unitSpot.SetOccupied(true);
-                if (CompareTag("Creature"))
+                if (CompareTag("Monster"))
                 {
                     SetMonsterActive(GetComponent<MonsterController>().monster, true);
                 }
@@ -48,7 +48,7 @@ public class DragAndDropUnit : MonoBehaviour
         else
         {
             transform.position = initialPosition;
-            if (CompareTag("Creature"))
+            if (CompareTag("Monster"))
             {
                 SetMonsterActive(GetComponent<MonsterController>().monster, false);
             }
@@ -56,7 +56,7 @@ public class DragAndDropUnit : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("UnitSpot") && CompareTag("Creature"))
+        if (collision.CompareTag("UnitSpot") && CompareTag("Monster"))
         {
             UnitSpot unitSpot = collision.GetComponent<UnitSpot>();
             if (!unitSpot.IsOccupied)
@@ -87,7 +87,7 @@ public class DragAndDropUnit : MonoBehaviour
             {
                 UnitSpot unitSpot = currentUnitSpot.GetComponent<UnitSpot>();
                 unitSpot.SetOccupied(false);
-                if (CompareTag("Creature"))
+                if (CompareTag("Monster"))
                 {
                     SetMonsterActive(GetComponent<MonsterController>().monster, false);
                     transform.position = initialPosition;

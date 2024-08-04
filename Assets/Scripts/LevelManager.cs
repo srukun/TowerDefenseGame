@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 public class LevelManager : MonoBehaviour
 {
-    public GameObject enemyPrefab; 
+    public GameObject[] enemyPrefab; 
     public Transform spawnPoint;   
     public int numberOfEnemies = 15; 
     public float spawnDuration = 45f; 
@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     {
         spawnPoint = waypoints[0];
         spawnInterval = spawnDuration / numberOfEnemies;
-        spawnCountdown = 120f;
+        spawnCountdown = 2.5f;
         ResetTeamActiveStatus();
         HealTeam();
         SpawnTeam();
@@ -61,11 +61,26 @@ public class LevelManager : MonoBehaviour
     {
         if (!gameIsPaused)
         {
-            GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            int randNum = Random.Range(0, enemyPrefab.Length);
+            GameObject enemy = Instantiate(enemyPrefab[randNum], spawnPoint.position, spawnPoint.rotation);
             enemy.GetComponent<EnemyController>().waypoints = waypoints;
             enemy.GetComponent<EnemyController>().levelManager = GetComponent<LevelManager>();
-            
-            enemy.GetComponent<EnemyController>().thisCreature = new Monster("Cotton", Random.Range(1, 6));
+
+            switch (randNum)
+            {
+                case 0:
+                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Cotton", Random.Range(1, 6));
+                    break;
+                case 1:
+                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Leaflutter", Random.Range(1, 6));
+                    break;
+                case 2:
+                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Emberdash", Random.Range(1, 6));
+                    break;
+                case 3:
+                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Aquaphion", Random.Range(1, 6));
+                    break;
+            }
             spawnedEnemies++;
         }
     }
@@ -97,9 +112,9 @@ public class LevelManager : MonoBehaviour
 
                     MonsterController monsterController = teamCreature.GetComponent<MonsterController>();
 
-                    monsterController.levelManager = this.gameObject;
+                    monsterController.levelManagerObject = this.gameObject;
                     monsterController.monster = creature;
-
+                    monsterController.levelManager = this;
 
 
                     teamUnits.Add(teamCreature);

@@ -6914,7 +6914,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5437511676f17674eadd9253a613a5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1667222889714084552, guid: 2f2cf2a21180d3e4b99d1fe3312cab44, type: 3}
+  enemyPrefab:
+  - {fileID: 4973928880110330590, guid: 8c2444697c61d45499fcf66fc0d0b64c, type: 3}
+  - {fileID: 6122925369599542238, guid: 2c55bb0926d5c4c45b5a0d5370995edd, type: 3}
+  - {fileID: 2371068081058684090, guid: 738151bfdae85df4c965acdf372e3f0b, type: 3}
+  - {fileID: 1720222305324511892, guid: 652fb890e27f5c448a99722afa75632d, type: 3}
   spawnPoint: {fileID: 0}
   numberOfEnemies: 10
   spawnDuration: 45
@@ -6926,6 +6930,9 @@ MonoBehaviour:
   numberOfApples: 1
   teamPrefabs:
   - {fileID: 5598102672552706633, guid: 4649a2388ed4f3a43a81cedd3636f78e, type: 3}
+  - {fileID: 4477797100057505909, guid: 9dc8afb893bb12540bd3eddac001a8e9, type: 3}
+  - {fileID: 7108519644708467096, guid: b8ef204b9c3c92a44b4f3366a172ca2b, type: 3}
+  - {fileID: 7833592279427408083, guid: f869adcef9121cc43affb091044f7ad4, type: 3}
   teamUnits: []
   canvas: {fileID: 529878734}
   cam: {fileID: 519420028}

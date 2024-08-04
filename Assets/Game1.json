@@ -132,7 +132,39 @@
       ],
       "activeMoveIndex": 0
     },
-    null
+    {
+      "ID": "a7cea819-c6c7-48f3-93f8-0eab0936f681",
+      "name": "Leaflutter",
+      "level": 1,
+      "experience": 0.0,
+      "baseHealth": 10.0,
+      "currentHealth": 4.5,
+      "speed": 2.0,
+      "damage": 1.5,
+      "nextLevelExpThreshold": 30.0,
+      "expThresholdIncrease": 1.45,
+      "healthIncrease": 4.0,
+      "damageIncrease": 1.5,
+      "isActive": false,
+      "moveSet": [
+        {
+          "moveName": "Punch",
+          "moveType": "Basic",
+          "damage": 1.0,
+          "attackRate": 1.0,
+          "moveSpeed": 7.0
+        },
+        {
+          "moveName": "Thunder Punch",
+          "moveType": "Electric",
+          "damage": 1.25,
+          "attackRate": 1.0,
+          "moveSpeed": 11.0
+        },
+        null
+      ],
+      "activeMoveIndex": 0
+    }
   ],
   "collection": []
 }

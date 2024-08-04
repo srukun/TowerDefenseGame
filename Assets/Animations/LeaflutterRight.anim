@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SheepIdleAnimation
+  m_Name: LeaflutterRight
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,11 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 19a42363929d2104ba0b1f600cd44b16, type: 3}
-    - time: 0.2
-      value: {fileID: 21300000, guid: 4cef64d95eea61340b6a3e88e354d5f0, type: 3}
-    - time: 0.4
-      value: {fileID: 21300000, guid: 19a42363929d2104ba0b1f600cd44b16, type: 3}
+      value: {fileID: 21300000, guid: 29a1ddacde943774b8dcc2f74a30ce5f, type: 3}
+    - time: 0.13333334
+      value: {fileID: 21300000, guid: 8595d4655d63f87449b886160987eddd, type: 3}
+    - time: 0.26666668
+      value: {fileID: 21300000, guid: 29a1ddacde943774b8dcc2f74a30ce5f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,15 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 19a42363929d2104ba0b1f600cd44b16, type: 3}
-    - {fileID: 21300000, guid: 4cef64d95eea61340b6a3e88e354d5f0, type: 3}
-    - {fileID: 21300000, guid: 19a42363929d2104ba0b1f600cd44b16, type: 3}
+    - {fileID: 21300000, guid: 29a1ddacde943774b8dcc2f74a30ce5f, type: 3}
+    - {fileID: 21300000, guid: 8595d4655d63f87449b886160987eddd, type: 3}
+    - {fileID: 21300000, guid: 29a1ddacde943774b8dcc2f74a30ce5f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.4166667
+    m_StopTime: 0.28333336
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

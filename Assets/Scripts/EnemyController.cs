@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -11,7 +12,7 @@ public class EnemyController : MonoBehaviour
     public LevelManager levelManager;
     public bool isActive;
     public Monster thisCreature;
-    public GameObject healthbar;
+    public GameObject[] healthbar;
     void Start()
     {
         
@@ -19,7 +20,9 @@ public class EnemyController : MonoBehaviour
 
     public void UpdateHealthbar()
     {
-        healthbar.transform.localScale = new Vector3(thisCreature.currentHealth/thisCreature.baseHealth, 0.1f, 1);
+        float healthScale = thisCreature.currentHealth / thisCreature.baseHealth;
+        healthbar[0].transform.localScale = new Vector3(healthScale, 0.1f, 2);
+        healthbar[1].transform.localScale = new Vector3(healthScale, 0.1f, 1);
     }
 
     public void RemoveEnemyFromScene()
@@ -48,24 +51,13 @@ public class EnemyController : MonoBehaviour
             Vector3 direction = (targetWaypoint.position - transform.position).normalized;
             transform.position = Vector3.MoveTowards(transform.position, targetWaypoint.position, thisCreature.speed * Time.deltaTime);
 
-            if (direction.x < 0)
-            {
-
-                SetAnimationState("IsWalkingLeft", true);
-                SetAnimationState("IsWalkingRight", false);
 
 
-            }
-            else if (direction.x > 0)
-            {
-                SetAnimationState("IsWalkingLeft", false);
-                SetAnimationState("IsWalkingRight", true);
-            }
-            else
-            {
-                SetAnimationState("IsWalkingLeft", false);
-                SetAnimationState("IsWalkingRight", false);
-            }
+            // Set the animation state
+            animator.SetBool("Leftward", direction.x < 0);
+            animator.SetBool("Rightward", direction.x > 0);
+            animator.SetBool("Forward", direction.y > 0);
+            animator.SetBool("Backward", direction.y < 0);
 
             if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.1f)
             {
