@@ -138,7 +138,7 @@
       "level": 1,
       "experience": 0.0,
       "baseHealth": 10.0,
-      "currentHealth": 4.5,
+      "currentHealth": 10.0,
       "speed": 2.0,
       "damage": 1.5,
       "nextLevelExpThreshold": 30.0,

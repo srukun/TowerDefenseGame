@@ -108,7 +108,25 @@ public class LevelManager : MonoBehaviour
             {
                 if (CanSpawn(creature.ID))
                 {
-                    GameObject teamCreature = Instantiate(teamPrefabs[0], spawnPoint, Quaternion.identity);
+                    GameObject teamCreature;
+                    switch (creature.name)
+                    {
+                        case "Cotton":
+                            teamCreature = Instantiate(teamPrefabs[0], spawnPoint, Quaternion.identity);
+                            break;
+                        case "Leaflutter":
+                            teamCreature = Instantiate(teamPrefabs[1], spawnPoint, Quaternion.identity);
+                            break;
+                        case "Emberdash":
+                            teamCreature = Instantiate(teamPrefabs[2], spawnPoint, Quaternion.identity);
+                            break;
+                        case "Aquaphion":
+                            teamCreature = Instantiate(teamPrefabs[3], spawnPoint, Quaternion.identity);
+                            break;
+                        default:
+                            teamCreature = Instantiate(teamPrefabs[0], spawnPoint, Quaternion.identity);
+                            break;
+                    }
 
                     MonsterController monsterController = teamCreature.GetComponent<MonsterController>();
 
