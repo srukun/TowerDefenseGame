@@ -33,7 +33,7 @@ public class AnimationController : MonoBehaviour
         }
         else
         {
-            if (direction.y > 0)
+            if (direction.y < 0)
             {
                 animator.SetBool("Forward", true);
             }

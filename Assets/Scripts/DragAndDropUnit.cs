@@ -30,7 +30,6 @@ public class DragAndDropUnit : MonoBehaviour
     private void OnMouseUp()
     {
         isDragging = false;
-        Debug.Log(currentUnitSpot == null);
 
         if (currentUnitSpot != null)
         {

@@ -180,10 +180,10 @@ GameObject:
   - component: {fileID: 3554862427471076834}
   - component: {fileID: 8484064805580781146}
   - component: {fileID: 8352843951923845798}
-  - component: {fileID: -3817073430998766822}
+  - component: {fileID: -2558241355386940780}
   - component: {fileID: 3324612557470982692}
   - component: {fileID: 6288178994612303005}
-  - component: {fileID: -2558241355386940780}
+  - component: {fileID: 7366079567783129063}
   m_Layer: 7
   m_Name: Cotton
   m_TagString: Monster
@@ -309,7 +309,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-3817073430998766822
+--- !u!114 &-2558241355386940780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,10 +318,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5598102672552706633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d84f303eb1ab544caf6aa4231ccb767, type: 3}
+  m_Script: {fileID: 11500000, guid: bfc5c30d7aa9ba9438271d6ee0389829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelManager: {fileID: 0}
+  animator: {fileID: 8484064805580781146}
 --- !u!114 &3324612557470982692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-2558241355386940780
+--- !u!114 &7366079567783129063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,10 +418,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5598102672552706633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc5c30d7aa9ba9438271d6ee0389829, type: 3}
+  m_Script: {fileID: 11500000, guid: b7ecc3c919021574aaba1c3acf62a397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8484064805580781146}
 --- !u!1 &7632487340804787501
 GameObject:
   m_ObjectHideFlags: 0
