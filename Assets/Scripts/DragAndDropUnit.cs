@@ -58,7 +58,6 @@ public class DragAndDropUnit : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.CompareTag("UnitSpot") && CompareTag("Monster"))
         {
             UnitSpot unitSpot = collision.GetComponent<UnitSpot>();

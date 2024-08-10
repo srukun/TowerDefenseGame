@@ -9,6 +9,8 @@ TagManager:
   - UnitSpot
   - Card
   - Monster
+  - CollectionSlot
+  - CollectionItem
   layers:
   - Default
   - TransparentFX

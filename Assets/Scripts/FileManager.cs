@@ -10,7 +10,7 @@ public static class FileManager
     public class GameFile
     {
         public Monster[] team = new Monster[5];
-        public List<Monster> collection = new List<Monster>();
+        public Monster[] collection = new Monster[105];
     }
 
     public static GameFile gameFile = new GameFile();
@@ -63,11 +63,25 @@ public static class FileManager
         }
         return -1;
     }
+    public static int GetFirstEmptyIndexInCollection()
+    {
+        LoadGameFile();
+        for (int i = 0; i < gameFile.collection.Length; i++)
+        {
+            if (gameFile.collection[i] == null)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
     public static void TameMonster(Monster monster)
     {
         LoadGameFile();
-
-        Debug.Log(GetFirstEmptyIndexInTeam());
+        if(GetFirstEmptyIndexInCollection() == -1 && GetFirstEmptyIndexInTeam() == -1)
+        {
+            Debug.Log("No Space");
+        }
         if (GetFirstEmptyIndexInTeam() != -1)
         {
             int index = GetFirstEmptyIndexInTeam();
@@ -76,8 +90,12 @@ public static class FileManager
         }
         else
         {
-            gameFile.collection.Add(monster);
-
+            if (GetFirstEmptyIndexInCollection() == -1)
+            {
+                return;
+            }
+            int index = GetFirstEmptyIndexInCollection();
+            gameFile.collection[index] = monster;
         }
 
         SaveGameFile();
@@ -112,5 +130,21 @@ public static class FileManager
             }
         }
         SaveGameFile();
+    }
+    public static string GetImage(string name)
+    {
+        switch (name)
+        {
+            case "Cotton":
+                return "Monsters/Cotton/CottonForward1";
+            case "Leaflutter":
+                return "Monsters/Leaflutter/LeafflutterForward1";
+            case "Emberdash":
+                return "Monsters/Emberdash/EmberdashFront1";
+            case "Aquaphion":
+                return "Monsters/Aquaphion/AquaphionForward1";
+            default:
+                return null;
+        }
     }
 }
