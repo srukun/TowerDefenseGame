@@ -68,7 +68,7 @@ public class EnemyController : MonoBehaviour
         {
             if(appleCarrypoint.transform.childCount > 0)
             {
-                levelManager.numberOfApples--;
+                levelManager.numberOfEmerald--;
             }
             Destroy(gameObject);
         }

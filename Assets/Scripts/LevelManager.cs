@@ -1,153 +1,201 @@
 using UnityEngine;
-using static FileManager;
-using System.IO;
-using UnityEngine.UI;
-using System.Linq;
 using System.Collections.Generic;
+using static FileManager;
+using UnityEngine.SceneManagement;
+using System.Collections;
+
 public class LevelManager : MonoBehaviour
 {
-    public GameObject[] enemyPrefab; 
-    public Transform spawnPoint;   
-    public int numberOfEnemies = 15; 
-    public float spawnDuration = 45f; 
+    [Header("Enemy Settings")]
+    public GameObject[] enemyPrefabs;
+    public Transform spawnPoint;
+    public int numberOfEnemies = 15;
+    public float spawnDuration = 45f;
 
-    private float spawnInterval; 
-    private float spawnCountdown; 
-    private int spawnedEnemies = 0;
-    public Transform[] waypoints;
-
-    public bool gameIsPaused;
-    public int numberOfApples;
+    [Header("Team Settings")]
     public GameObject[] teamPrefabs;
     public List<GameObject> teamUnits;
 
+    [Header("Level Settings")]
+    public string missionType;
+    public Transform[] waypoints;
+    public int numberOfEmerald;
+    public bool hasGameEnded = false;
+
+    [Header("UI References")]
     public GameObject canvas;
-    public GameObject cam;
-    void Start()
+    public GameObject cameraObj;
+    public GameObject moveset;
+
+    [Header("Dialogue")]
+    public DialogueTrigger dialogueTrigger;
+    public DialogueManager dialogueManager;
+    private float spawnInterval;
+    private float spawnCountdown;
+    private int spawnedEnemies;
+    public bool gameIsPaused;
+
+    [Header("Dialogue Lines")]
+    public Dialogue winDialogue;
+    public Dialogue loseDialogue;
+     
+    private void Start()
+    {
+
+
+        dialogueTrigger.TriggerDialogue();
+        InitializeLevel();
+    }
+
+    private void Update()
+    {
+        if (gameIsPaused || hasGameEnded) return;
+
+        HandleEnemySpawning();
+        CheckGameOverCondition();
+        CheckWinCondition();
+    }
+
+    private void InitializeLevel()
     {
         spawnPoint = waypoints[0];
         spawnInterval = spawnDuration / numberOfEnemies;
         spawnCountdown = 2.5f;
+        spawnedEnemies = 0;
+
         ResetTeamActiveStatus();
         HealTeam();
         SpawnTeam();
     }
 
-    void Update()
+    private void HandleEnemySpawning()
     {
-        if (!gameIsPaused)
-        {
-            if (spawnedEnemies < numberOfEnemies)
-            {
-                spawnCountdown -= Time.deltaTime;
+        if (spawnedEnemies >= numberOfEnemies) return;
 
-                if (spawnCountdown <= 0f)
-                {
-                    SpawnEnemy();
-                    spawnCountdown = spawnInterval;
-                }
-            }
-            if (numberOfApples <= 0)
-            {
-                Debug.Log("Game Over");
-                gameIsPaused = true;
-            }
+        spawnCountdown -= Time.deltaTime;
+
+        if (spawnCountdown <= 0f)
+        {
+            SpawnEnemy();
+            spawnCountdown = spawnInterval;
         }
+    }
+
+    private void SpawnEnemy()
+    {
+        int randNum = Random.Range(0, enemyPrefabs.Length);
+        GameObject enemy = Instantiate(enemyPrefabs[randNum], spawnPoint.position, spawnPoint.rotation);
+
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+
+        enemyController.waypoints = waypoints;
+        enemyController.levelManager = this;
+
+        string[] monsterNames = { "Cotton", "Leaflutter", "Emberdash", "Aquaphion" };
+        enemyController.thisCreature = new Monster(monsterNames[randNum], Random.Range(1, 6));
+
+        spawnedEnemies++;
+    }
+
+    private void CheckGameOverCondition()
+    {
+        if (missionType == "Defense" && numberOfEmerald <= 0 && spawnedEnemies < numberOfEnemies)
+        {
+            GameOver();
+        }
+    }
+
+    private void CheckWinCondition()
+    {
+        if (missionType == "Elimination" && spawnedEnemies >= numberOfEnemies && AreAllEnemiesDefeated())
+        {
+            WinGame();
+        }
+        else if (missionType == "Defense" && numberOfEmerald > 0 && spawnedEnemies >= numberOfEnemies && AreAllEnemiesDefeated())
+        {
+            WinGame();
+        }
+    }
+
+    private void GameOver()
+    {
+
+        if (hasGameEnded) return;
+
+        hasGameEnded = true;
+        gameIsPaused = true;
+        FindObjectOfType<DialogueManager>().StartDialogue(loseDialogue);
+
+    }
+
+    private void WinGame()
+    {
+
+        if (hasGameEnded) return;
+
+        hasGameEnded = true;
+        gameIsPaused = true;
+        FindObjectOfType<DialogueManager>().StartDialogue(winDialogue);
 
     }
 
 
-    void SpawnEnemy()
+    private bool AreAllEnemiesDefeated()
     {
-        if (!gameIsPaused)
-        {
-            int randNum = Random.Range(0, enemyPrefab.Length);
-            GameObject enemy = Instantiate(enemyPrefab[randNum], spawnPoint.position, spawnPoint.rotation);
-            enemy.GetComponent<EnemyController>().waypoints = waypoints;
-            enemy.GetComponent<EnemyController>().levelManager = GetComponent<LevelManager>();
+        EnemyController[] activeEnemies = FindObjectsOfType<EnemyController>();
+        return activeEnemies.Length == 0;
+    }
 
-            switch (randNum)
-            {
-                case 0:
-                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Cotton", Random.Range(1, 6));
-                    break;
-                case 1:
-                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Leaflutter", Random.Range(1, 6));
-                    break;
-                case 2:
-                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Emberdash", Random.Range(1, 6));
-                    break;
-                case 3:
-                    enemy.GetComponent<EnemyController>().thisCreature = new Monster("Aquaphion", Random.Range(1, 6));
-                    break;
-            }
-            spawnedEnemies++;
-        }
-    }
-    public bool CanSpawn(string ID)
-    {
-        foreach (var creature in teamUnits)
-        {
-            var monster = creature.GetComponent<MonsterController>().monster;
-            if (monster.ID == ID && TeamMemberIsActive(monster))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
     public void SpawnTeam()
     {
-
-        Vector3 spawnPoint = new Vector3(-4, -2.75f, -1);
+        Vector3 spawnPos = new Vector3(-4, -2.75f, -1);
         LoadGameFile();
+
         foreach (var creature in gameFile.team)
         {
+            if (creature == null || !CanSpawn(creature.ID)) continue;
 
-            if (creature != null)
-            {
-                if (CanSpawn(creature.ID))
-                {
-                    GameObject teamCreature;
-                    switch (creature.name)
-                    {
-                        case "Cotton":
-                            teamCreature = Instantiate(teamPrefabs[0], spawnPoint, Quaternion.identity);
-                            break;
-                        case "Leaflutter":
-                            teamCreature = Instantiate(teamPrefabs[1], spawnPoint, Quaternion.identity);
-                            break;
-                        case "Emberdash":
-                            teamCreature = Instantiate(teamPrefabs[2], spawnPoint, Quaternion.identity);
-                            break;
-                        case "Aquaphion":
-                            teamCreature = Instantiate(teamPrefabs[3], spawnPoint, Quaternion.identity);
-                            break;
-                        default:
-                            teamCreature = Instantiate(teamPrefabs[0], spawnPoint, Quaternion.identity);
-                            break;
-                    }
+            GameObject teamCreature = InstantiateTeamCreature(creature, ref spawnPos);
 
-                    MonsterController monsterController = teamCreature.GetComponent<MonsterController>();
+            var monsterController = teamCreature.GetComponent<MonsterController>();
+            monsterController.levelManagerObject = gameObject;
+            monsterController.monster = creature;
+            monsterController.levelManager = this;
 
-                    monsterController.levelManagerObject = this.gameObject;
-                    monsterController.monster = creature;
-                    monsterController.levelManager = this;
+            teamUnits.Add(teamCreature);
 
-
-                    teamUnits.Add(teamCreature);
-
-                    //Spawn Movest
-                    spawnPoint.y -= 1.35f;
-                    monsterController.CreateMoveset(canvas, cam.GetComponent<Camera>().WorldToScreenPoint(spawnPoint));
-                    spawnPoint.y += 1.35f;
-
-                }
-            }
-            spawnPoint.x += 2;
-
+            spawnPos.y -= 1.35f;
+            monsterController.CreateMoveset(moveset, cameraObj.GetComponent<Camera>().WorldToScreenPoint(spawnPos));
+            spawnPos.y += 1.35f;
+            spawnPos.x += 2;
         }
     }
+
+    private GameObject InstantiateTeamCreature(Monster creature, ref Vector3 spawnPos)
+    {
+        int prefabIndex = GetPrefabIndex(creature.name);
+        return Instantiate(teamPrefabs[prefabIndex], spawnPos, Quaternion.identity);
+    }
+
+    private int GetPrefabIndex(string name)
+    {
+        switch (name)
+        {
+            case "Cotton": return 0;
+            case "Leaflutter": return 1;
+            case "Emberdash": return 2;
+            case "Aquaphion": return 3;
+            default: return 0;
+        }
+    }
+
+    private bool CanSpawn(string ID)
+    {
+        return !teamUnits.Exists(creature =>
+            creature.GetComponent<MonsterController>().monster.ID == ID &&
+            TeamMemberIsActive(creature.GetComponent<MonsterController>().monster));
+    }
+
     public void DeleteTeam()
     {
         for (int i = teamUnits.Count - 1; i >= 0; i--)
@@ -161,5 +209,14 @@ public class LevelManager : MonoBehaviour
                 Destroy(unit);
             }
         }
+    }
+    public void PauseGame()
+    {
+        gameIsPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        gameIsPaused = false;
     }
 }

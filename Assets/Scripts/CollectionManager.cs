@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class CollectionManager : MonoBehaviour
@@ -38,15 +39,25 @@ public class CollectionManager : MonoBehaviour
         {
             team[i].GetComponent<BoxCollider2D>().enabled = false;
 
-            GameObject item = Instantiate(monsterItem, new Vector3(team[i].transform.position.x, team[i].transform.position.y, -1), Quaternion.identity);
-            item.GetComponent<CollectionItem>().monster = FileManager.gameFile.team[i].GetMonster();
-            team[i].GetComponent<CollectionSlotManager>().slotType = "Team";
-            team[i].GetComponent<CollectionSlotManager>().monster = FileManager.gameFile.team[i].GetMonster();
-            item.GetComponent<CollectionItem>().originalSlot = team[i].GetComponent<CollectionSlotManager>();
-            item.GetComponent<CollectionItem>().UpdateImage();
-            team[i].GetComponent<BoxCollider2D>().enabled = true;
+            team[i].GetComponent<CollectionSlotManager>().monster = null;
+
+            if (FileManager.gameFile.team[i] != null)
+            {
+                GameObject item = Instantiate(monsterItem, new Vector3(team[i].transform.position.x, team[i].transform.position.y, -1), Quaternion.identity);
+                team[i].GetComponent<CollectionSlotManager>().slotType = "Team";
+                item.GetComponent<CollectionItem>().originalSlot = team[i].GetComponent<CollectionSlotManager>();
+
+                item.GetComponent<CollectionItem>().monster = FileManager.gameFile.team[i].GetMonster();
+                team[i].GetComponent<CollectionSlotManager>().monster = FileManager.gameFile.team[i].GetMonster();
+
+                item.GetComponent<CollectionItem>().UpdateImage();
+                team[i].GetComponent<BoxCollider2D>().enabled = true;
+                createdObjects.Add(item);
+            }
             team[i].GetComponent<CollectionSlotManager>().index = i;
-            createdObjects.Add(item);
+
+            team[i].GetComponent<BoxCollider2D>().enabled = true;
+
         }
     }
     public void UpdateCollection()

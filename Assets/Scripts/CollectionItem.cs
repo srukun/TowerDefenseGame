@@ -24,6 +24,7 @@ public class CollectionItem : MonoBehaviour
 
     void Update()
     {
+
     }
     private IEnumerator DisableInitializationAfterFrame()
     {
@@ -50,44 +51,94 @@ public class CollectionItem : MonoBehaviour
         isDragging = false;
 
         Collider2D collider = GetComponent<Collider2D>();
-        collider.enabled = false;
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        collider.enabled = true;
+        //.enabled = false;
+        int layerMask = LayerMask.GetMask("Slot");
 
-        if (hit.transform != null)
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
+
+        //collider.enabled = true;
+
+
+        if (hit.transform != null && hit.transform != transform)
         {
-            if (hit.transform.tag == "CollectionItem")
-            {
-                //CollectionItem targetItem = hit.collider.GetComponent<CollectionItem>();
+            CollectionSlotManager targetSlot = hit.collider.GetComponent<CollectionSlotManager>();
+            CollectionSlotManager thisSlot = originalSlot;
 
-            }
-            else if (hit.transform.tag == "CollectionSlot")
+
+            if (targetSlot != null && targetSlot != originalSlot)
             {
-                CollectionSlotManager targetSlot = hit.collider.GetComponent<CollectionSlotManager>();
-                if (targetSlot != null && targetSlot != originalSlot)
+                if (thisSlot.slotType == "Team" && targetSlot.slotType == "Collection")
                 {
 
-                    if (targetSlot.monster == null)
-                    {
-
-                        targetSlot.SetMonster(this.monster);
-                        originalSlot.ClearSlot();
-
-                    }
-                    FileManager.LoadGameFile();
-
-                    FileManager.gameFile.collection[targetSlot.index] = targetSlot.monster;
-                    FileManager.gameFile.collection[originalSlot.index] = originalSlot.monster;
-                    FileManager.SaveGameFile();
+                    SwapMonsters(thisSlot, targetSlot, "TeamToCollection");
                 }
-            }
-            
-            collectionManager.DeleteAllCreatedObjects();
-            collectionManager.UpdateTeam();
-            collectionManager.UpdateCollection();
-        }
+                else if (thisSlot.slotType == "Collection" && targetSlot.slotType == "Team")
+                {
+                    SwapMonsters(thisSlot, targetSlot, "CollectionToTeam");
+                }
+                else if (thisSlot.slotType == targetSlot.slotType)
+                {
 
+                    string swapType = thisSlot.slotType == "Team" ? "TeamToTeam" : "CollectionToCollection";
+                    SwapMonsters(thisSlot, targetSlot, swapType);
+                }
+
+            }
+        }
         transform.position = initialPosition;
+        collectionManager.DeleteAllCreatedObjects();
+        collectionManager.UpdateTeam();
+        collectionManager.UpdateCollection();
+    }
+
+    private void SwapMonsters(CollectionSlotManager thisSlot, CollectionSlotManager targetSlot, string swapType)
+    {
+        Monster tempMonster = targetSlot.monster;
+
+        targetSlot.SetMonster(this.monster);
+        thisSlot.SetMonster(tempMonster);
+
+
+        switch (swapType)
+        {
+            case "TeamToCollection":
+                FileManager.LoadGameFile();
+
+
+                FileManager.gameFile.team[thisSlot.index] = thisSlot.monster;
+                FileManager.gameFile.collection[targetSlot.index] = targetSlot.monster;
+
+                FileManager.SaveGameFile();
+                break;
+
+            case "CollectionToTeam":
+                FileManager.LoadGameFile();
+
+                FileManager.gameFile.team[targetSlot.index] = targetSlot.monster;
+                FileManager.gameFile.collection[thisSlot.index] = thisSlot.monster;
+
+                FileManager.SaveGameFile();
+                break;
+
+            case "TeamToTeam":
+                FileManager.LoadGameFile();
+                FileManager.gameFile.team[targetSlot.index] = targetSlot.monster;
+                FileManager.gameFile.team[thisSlot.index] = thisSlot.monster;
+                FileManager.SaveGameFile();
+                break;
+
+            case "CollectionToCollection":
+                FileManager.LoadGameFile();
+                FileManager.gameFile.collection[targetSlot.index] = targetSlot.monster;
+                FileManager.gameFile.collection[thisSlot.index] = thisSlot.monster;
+                FileManager.SaveGameFile();
+                break;
+
+
+            default:
+                Debug.LogWarning("Unhandled swap type: " + swapType);
+                break;
+        }
     }
 
 
