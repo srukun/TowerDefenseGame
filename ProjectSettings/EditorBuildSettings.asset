@@ -9,9 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: ce319f4f66081334ebb5863c6d62360d
   - enabled: 1
+    path: Assets/Scenes/Collection.unity
+    guid: 85f4cfd3544929d49bfd1863594e2899
+  - enabled: 1
+    path: Assets/Scenes/ProvinceSelect.unity
+    guid: 9a8b371023f3f63428305c0450eb9bc0
+  - enabled: 1
+    path: Assets/Scenes/WindwarProvince.unity
+    guid: a68e3f916999955498d4898835f2586c
+  - enabled: 1
     path: Assets/Scenes/WindwarChapter1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Collection.unity
-    guid: 85f4cfd3544929d49bfd1863594e2899
+    path: Assets/Scenes/WindwarChapter2.unity
+    guid: 94b02029a4ab2124da815e170cda4ff8
   m_configObjects: {}
