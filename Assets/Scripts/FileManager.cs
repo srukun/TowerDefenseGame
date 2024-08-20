@@ -4,16 +4,38 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 
-public static class FileManager 
+public static class FileManager
 {
     [System.Serializable]
     public class GameFile
     {
         public Monster[] team = new Monster[5];
         public Monster[] collection = new Monster[105];
+
+        public ProgressionData progression = new ProgressionData();
+    }
+
+    [System.Serializable]
+    public class ProgressionData
+    {
+        public Dictionary<string, ProvinceData> provinces = new Dictionary<string, ProvinceData>();
+    }
+
+    [System.Serializable]
+    public class ProvinceData
+    {
+        public bool unlocked;
+        public Dictionary<string, ChapterData> chapters = new Dictionary<string, ChapterData>();
+    }
+
+    [System.Serializable]
+    public class ChapterData
+    {
+        public bool unlocked;
     }
 
     public static GameFile gameFile = new GameFile();
+
     public static void SetMonsterActive(Monster monster, bool setActive)
     {
         LoadGameFile();
@@ -26,35 +48,37 @@ public static class FileManager
         }
         SaveGameFile();
     }
+
     public static void ResetTeamActiveStatus()
     {
         LoadGameFile();
         foreach (Monster teamMember in gameFile.team)
         {
-            if(teamMember != null)
+            if (teamMember != null)
             {
                 teamMember.isActive = false;
             }
-
         }
         SaveGameFile();
     }
+
     public static bool TeamMemberIsActive(Monster monster)
     {
         LoadGameFile();
-        foreach(Monster teamMember in gameFile.team)
+        foreach (Monster teamMember in gameFile.team)
         {
-            if(teamMember != null && teamMember.ID == monster.ID && teamMember.isActive)
+            if (teamMember != null && teamMember.ID == monster.ID && teamMember.isActive)
             {
                 return true;
             }
         }
         return false;
     }
+
     public static int GetFirstEmptyIndexInTeam()
     {
         LoadGameFile();
-        for(int i = 0; i < gameFile.team.Length; i++)
+        for (int i = 0; i < gameFile.team.Length; i++)
         {
             if (gameFile.team[i] == null)
             {
@@ -63,6 +87,7 @@ public static class FileManager
         }
         return -1;
     }
+
     public static int GetFirstEmptyIndexInCollection()
     {
         LoadGameFile();
@@ -75,10 +100,11 @@ public static class FileManager
         }
         return -1;
     }
+
     public static void TameMonster(Monster monster)
     {
         LoadGameFile();
-        if(GetFirstEmptyIndexInCollection() == -1 && GetFirstEmptyIndexInTeam() == -1)
+        if (GetFirstEmptyIndexInCollection() == -1 && GetFirstEmptyIndexInTeam() == -1)
         {
             Debug.Log("No Space");
         }
@@ -86,7 +112,6 @@ public static class FileManager
         {
             int index = GetFirstEmptyIndexInTeam();
             gameFile.team[index] = monster;
-
         }
         else
         {
@@ -97,14 +122,15 @@ public static class FileManager
             int index = GetFirstEmptyIndexInCollection();
             gameFile.collection[index] = monster;
         }
-
         SaveGameFile();
     }
+
     public static void SaveGameFile()
     {
         string json = JsonConvert.SerializeObject(gameFile, Formatting.Indented);
         File.WriteAllText(Application.dataPath + "/Game1.json", json);
     }
+
     public static void LoadGameFile()
     {
         string path = Application.dataPath + "/Game1.json";
@@ -117,20 +143,21 @@ public static class FileManager
         {
             gameFile = new GameFile();
         }
-
     }
+
     public static void HealTeam()
     {
         LoadGameFile();
-        foreach(Monster mon in gameFile.team)
+        foreach (Monster mon in gameFile.team)
         {
-            if(mon != null)
+            if (mon != null)
             {
                 mon.currentHealth = mon.baseHealth;
             }
         }
         SaveGameFile();
     }
+
     public static string GetImage(string name)
     {
         switch (name)
@@ -146,5 +173,29 @@ public static class FileManager
             default:
                 return null;
         }
+    }
+
+    public static bool ProvinceUnlocked(string provinceName)
+    {
+        LoadGameFile();
+        if (gameFile.progression.provinces.ContainsKey(provinceName))
+        {
+            return gameFile.progression.provinces[provinceName].unlocked;
+        }
+        return false;
+    }
+
+    public static bool ChapterUnlocked(string provinceName, string chapterName)
+    {
+        LoadGameFile();
+        if (gameFile.progression.provinces.ContainsKey(provinceName))
+        {
+            var province = gameFile.progression.provinces[provinceName];
+            if (province.chapters.ContainsKey(chapterName))
+            {
+                return province.chapters[chapterName].unlocked;
+            }
+        }
+        return false;
     }
 }
