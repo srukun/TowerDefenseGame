@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System;
 public class DialogueManager : MonoBehaviour
 {
     public TMP_Text nameText;
@@ -11,7 +11,8 @@ public class DialogueManager : MonoBehaviour
     private Queue<DialogueLine> sentences;
     public LevelManager levelManager;
     public bool isTyping;
-
+    public event Action OnEndDialogueForLevelComplete;
+    public bool endScene;
     void Start()
     {
         sentences = new Queue<DialogueLine>();
@@ -24,8 +25,9 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue dialogue, bool endScene)
     {
+        this.endScene = endScene;
         animator.SetBool("isOpen", true);
         sentences.Clear();
 
@@ -59,13 +61,13 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+/*            if (Input.GetKeyDown(KeyCode.Space))
             {
                 dialogueText.text = sentence;
                 break;
-            }
+            }*/
             dialogueText.text += letter;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.025f);
         }
         isTyping = false;
         OnSentenceComplete();
@@ -82,7 +84,16 @@ public class DialogueManager : MonoBehaviour
     {
         animator.SetBool("isOpen", false);
         levelManager.ResumeGame();
+        if (endScene)
+        {
+            EndDialogueForLevelComplete();
+        }
+
     }
 
+    public void EndDialogueForLevelComplete()
+    {
+        OnEndDialogueForLevelComplete?.Invoke(); 
+    }
 
 }

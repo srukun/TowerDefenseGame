@@ -21,6 +21,10 @@ public class LevelManager : MonoBehaviour
     public Transform[] waypoints;
     public int numberOfEmerald;
     public bool hasGameEnded = false;
+    public Vector3 spawnPosition;
+    public float spawnPositionDifference;
+    public float movesetUIYOffset;
+
 
     [Header("UI References")]
     public GameObject canvas;
@@ -43,7 +47,7 @@ public class LevelManager : MonoBehaviour
     {
 
 
-        dialogueTrigger.TriggerDialogue();
+        dialogueTrigger.TriggerDialogue(false);
         InitializeLevel();
     }
 
@@ -99,8 +103,9 @@ public class LevelManager : MonoBehaviour
 
     private void CheckGameOverCondition()
     {
-        if (missionType == "Defense" && numberOfEmerald <= 0 && spawnedEnemies < numberOfEnemies)
+        if (missionType == "Defense" && numberOfEmerald <= 0)
         {
+            Debug.Log("test");
             GameOver();
         }
     }
@@ -119,24 +124,33 @@ public class LevelManager : MonoBehaviour
 
     private void GameOver()
     {
-
         if (hasGameEnded) return;
 
         hasGameEnded = true;
         gameIsPaused = true;
-        FindObjectOfType<DialogueManager>().StartDialogue(loseDialogue);
+
+        var dialogueManager = FindObjectOfType<DialogueManager>();
+        dialogueManager.OnEndDialogueForLevelComplete += ReturnToMenu;
+        dialogueManager.StartDialogue(loseDialogue, true);
 
     }
 
     private void WinGame()
     {
-
         if (hasGameEnded) return;
 
         hasGameEnded = true;
         gameIsPaused = true;
-        FindObjectOfType<DialogueManager>().StartDialogue(winDialogue);
 
+        var dialogueManager = FindObjectOfType<DialogueManager>();
+        dialogueManager.OnEndDialogueForLevelComplete += ReturnToMenu;
+        dialogueManager.StartDialogue(winDialogue, true);
+
+    }
+
+    private void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
 
@@ -148,14 +162,14 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnTeam()
     {
-        Vector3 spawnPos = new Vector3(-4, -2.75f, -1);
+        Vector3 spawnPos = spawnPosition;
         LoadGameFile();
 
         foreach (var creature in gameFile.team)
         {
             if (creature == null || !CanSpawn(creature.ID)) continue;
 
-            GameObject teamCreature = InstantiateTeamCreature(creature, ref spawnPos);
+            GameObject teamCreature = InstantiateTeamCreature(creature, spawnPos);
 
             var monsterController = teamCreature.GetComponent<MonsterController>();
             monsterController.levelManagerObject = gameObject;
@@ -164,14 +178,15 @@ public class LevelManager : MonoBehaviour
 
             teamUnits.Add(teamCreature);
 
-            spawnPos.y -= 1.35f;
+            //1.35f
+            spawnPos.y -= movesetUIYOffset;
             monsterController.CreateMoveset(moveset, cameraObj.GetComponent<Camera>().WorldToScreenPoint(spawnPos));
-            spawnPos.y += 1.35f;
-            spawnPos.x += 2;
+            spawnPos.y += movesetUIYOffset;
+            spawnPos.x += spawnPositionDifference;
         }
     }
 
-    private GameObject InstantiateTeamCreature(Monster creature, ref Vector3 spawnPos)
+    private GameObject InstantiateTeamCreature(Monster creature, Vector3 spawnPos)
     {
         int prefabIndex = GetPrefabIndex(creature.name);
         return Instantiate(teamPrefabs[prefabIndex], spawnPos, Quaternion.identity);

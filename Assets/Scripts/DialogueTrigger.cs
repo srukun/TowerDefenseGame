@@ -7,8 +7,8 @@ public class DialogueTrigger : MonoBehaviour
     public Dialogue winDialogue;
     public Dialogue loseDialogue;
 
-    public void TriggerDialogue()
+    public void TriggerDialogue(bool endScene)
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, endScene);
     }
 }

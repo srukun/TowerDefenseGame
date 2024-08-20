@@ -1,19 +1,19 @@
 {
   "team": [
     {
-      "ID": "f6d9ede3-c090-4a78-aa34-cd20aaa6c29f",
-      "name": "Cotton",
-      "level": 5,
+      "ID": "4308b5e3-0ad5-4671-b7d3-a6417fd5c02a",
+      "name": "Leaflutter",
+      "level": 2,
       "experience": 0.0,
-      "baseHealth": 15.0,
-      "currentHealth": 15.0,
-      "speed": 3.4,
-      "damage": 4.1,
-      "nextLevelExpThreshold": 132.6152,
+      "baseHealth": 11.25,
+      "currentHealth": 11.25,
+      "speed": 2.35,
+      "damage": 2.15,
+      "nextLevelExpThreshold": 43.5,
       "expThresholdIncrease": 1.45,
       "healthIncrease": 4.0,
       "damageIncrease": 1.5,
-      "isActive": true,
+      "isActive": false,
       "moveSet": [
         {
           "moveName": "Punch",
@@ -46,7 +46,7 @@
       "expThresholdIncrease": 1.45,
       "healthIncrease": 4.0,
       "damageIncrease": 1.5,
-      "isActive": true,
+      "isActive": false,
       "moveSet": [
         {
           "moveName": "Punch",
@@ -137,15 +137,15 @@
       "activeMoveIndex": 0
     },
     {
-      "ID": "4308b5e3-0ad5-4671-b7d3-a6417fd5c02a",
-      "name": "Leaflutter",
-      "level": 2,
+      "ID": "f6d9ede3-c090-4a78-aa34-cd20aaa6c29f",
+      "name": "Cotton",
+      "level": 5,
       "experience": 0.0,
-      "baseHealth": 11.25,
-      "currentHealth": 11.25,
-      "speed": 2.35,
-      "damage": 2.15,
-      "nextLevelExpThreshold": 43.5,
+      "baseHealth": 15.0,
+      "currentHealth": 15.0,
+      "speed": 3.4,
+      "damage": 4.1,
+      "nextLevelExpThreshold": 132.6152,
       "expThresholdIncrease": 1.45,
       "healthIncrease": 4.0,
       "damageIncrease": 1.5,

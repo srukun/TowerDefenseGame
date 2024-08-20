@@ -13,6 +13,8 @@ public class EnemyController : MonoBehaviour
     public bool isActive;
     public Monster thisCreature;
     public GameObject[] healthbar;
+    public bool carryingEmerald;
+    public GameObject emerald;
     void Start()
     {
         
@@ -33,6 +35,10 @@ public class EnemyController : MonoBehaviour
             appleCarrypoint.transform.SetParent(null);
             appleCarrypoint.transform.position = transform.position;
         }
+        if(carryingEmerald)
+        {
+            GetComponent<LevelManager>().numberOfEmerald--;
+        }
         Destroy(gameObject);
     }
     void Update()
@@ -41,6 +47,7 @@ public class EnemyController : MonoBehaviour
         {
             UpdateHealthbar();
             Move();
+            CarryEmerald();
         }
     }
     public void Move()
@@ -53,11 +60,34 @@ public class EnemyController : MonoBehaviour
 
 
 
-            // Set the animation state
-            animator.SetBool("Leftward", direction.x < 0);
-            animator.SetBool("Rightward", direction.x > 0);
-            animator.SetBool("Forward", direction.y > 0);
-            animator.SetBool("Backward", direction.y < 0);
+
+            animator.SetBool("Leftward", false);
+            animator.SetBool("Rightward", false);
+            animator.SetBool("Forward", false);
+            animator.SetBool("Backward", false);
+
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                if (direction.x > 0)
+                {
+                    animator.SetBool("Rightward", true);
+                }
+                else if (direction.x < 0)
+                {
+                    animator.SetBool("Leftward", true);
+                }
+            }
+            else
+            {
+                if (direction.y > 0)
+                {
+                    animator.SetBool("Backward", true);
+                }
+                else if (direction.y < 0)
+                {
+                    animator.SetBool("Forward", true);
+                }
+            }
 
             if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.1f)
             {
@@ -86,6 +116,23 @@ public class EnemyController : MonoBehaviour
         if(thisCreature.currentHealth <= 0)
         {
             RemoveEnemyFromScene();
+        }
+    }
+    public void PickUpEmerald(GameObject emerald)
+    {
+        if (!carryingEmerald)
+        {
+            carryingEmerald = true;
+            this.emerald = emerald;
+            this.emerald.transform.SetParent(appleCarrypoint.transform, true);
+            this.emerald.transform.position = appleCarrypoint.transform.position;
+        }
+    }
+    public void CarryEmerald()
+    {
+        if (carryingEmerald)
+        {
+            this.emerald.transform.position = appleCarrypoint.transform.position;
         }
     }
 }

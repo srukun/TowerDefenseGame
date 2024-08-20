@@ -161,6 +161,8 @@ MonoBehaviour:
   healthbar:
   - {fileID: 3920243156800633645}
   - {fileID: 5111814915707268839}
+  carryingEmerald: 0
+  emerald: {fileID: 0}
 --- !u!50 &6424374684960599959
 Rigidbody2D:
   serializedVersion: 4

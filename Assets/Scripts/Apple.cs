@@ -20,11 +20,10 @@ public class Apple : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!pickedup && collision.transform.tag == "Enemy" && collision.gameObject.GetComponent<EnemyController>().appleCarrypoint != null)
+        if (!pickedup && collision.transform.tag == "Enemy" && !collision.gameObject.GetComponent<EnemyController>().carryingEmerald)
         {
             pickedup = true;
-            gameObject.transform.SetParent(collision.gameObject.GetComponent<EnemyController>().appleCarrypoint.transform);
-            transform.position = collision.gameObject.GetComponent<EnemyController>().appleCarrypoint.transform.position;
+            collision.gameObject.GetComponent<EnemyController>().PickUpEmerald(gameObject);
         }
     }
 
