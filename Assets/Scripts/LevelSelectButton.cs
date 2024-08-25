@@ -21,11 +21,21 @@ public class LevelSelectButton : MonoBehaviour
     {
         
     }
+
     public void SetUp()
     {
         if(buttonType == "ChapterSelect")
         {
             bool unlocked = FileManager.ChapterUnlocked(provience, chapterID);
+            if (unlocked)
+            {
+                lockedText.SetActive(false);
+                lockedBlockImage.SetActive(false);
+            }
+        }
+        if(buttonType == "ProvinceSelect")
+        {
+            bool unlocked = FileManager.ProvinceUnlocked(provience);
             Debug.Log(unlocked);
             if (unlocked)
             {
@@ -37,6 +47,22 @@ public class LevelSelectButton : MonoBehaviour
     }
     public void OnClick()
     {
-        SceneManager.LoadScene(sceneId);
+        if (Unlocked())
+        {
+            SceneManager.LoadScene(sceneId);
+
+        }
+    }
+    public bool Unlocked()
+    {
+        if (buttonType == "ChapterSelect")
+        {
+            return FileManager.ChapterUnlocked(provience, chapterID);
+        }
+        if (buttonType == "ProvinceSelect")
+        {
+            return FileManager.ProvinceUnlocked(provience);
+        }
+        return false;
     }
 }

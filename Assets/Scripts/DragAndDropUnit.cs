@@ -17,6 +17,7 @@ public class DragAndDropUnit : MonoBehaviour
     }
     private void OnMouseDown()
     {
+
         isDragging = true;
     }
     private void OnMouseDrag()
@@ -40,7 +41,7 @@ public class DragAndDropUnit : MonoBehaviour
             {
 
                 transform.position = new Vector3(currentUnitSpot.transform.position.x, currentUnitSpot.transform.position.y, -2);
-                unitSpot.SetOccupied(true);
+                //unitSpot.SetOccupied(true);
                 if (CompareTag("Monster"))
                 {
                     SetMonsterActive(GetComponent<MonsterController>().monster, true);
@@ -88,7 +89,7 @@ public class DragAndDropUnit : MonoBehaviour
             if (currentUnitSpot == collision.gameObject)
             {
                 UnitSpot unitSpot = currentUnitSpot.GetComponent<UnitSpot>();
-                unitSpot.SetOccupied(false);
+                //unitSpot.SetOccupied(false);
                 if (CompareTag("Monster"))
                 {
 

@@ -1,240 +1,14 @@
 {
   "team": [
-    {
-      "ID": "4308b5e3-0ad5-4671-b7d3-a6417fd5c02a",
-      "name": "Leaflutter",
-      "level": 2,
-      "experience": 0.0,
-      "baseHealth": 11.25,
-      "currentHealth": 11.25,
-      "speed": 2.35,
-      "damage": 2.15,
-      "nextLevelExpThreshold": 43.5,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": false,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
-    {
-      "ID": "0017f972-404d-4638-b9dd-6e51fc318409",
-      "name": "Leaflutter",
-      "level": 1,
-      "experience": 0.0,
-      "baseHealth": 10.0,
-      "currentHealth": 10.0,
-      "speed": 2.0,
-      "damage": 1.5,
-      "nextLevelExpThreshold": 30.0,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": false,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
-    {
-      "ID": "0ee4ce0e-2f7c-4742-bdf5-9ee75c6e93bc",
-      "name": "Aquaphion",
-      "level": 5,
-      "experience": 0.0,
-      "baseHealth": 15.0,
-      "currentHealth": 15.0,
-      "speed": 3.4,
-      "damage": 4.1,
-      "nextLevelExpThreshold": 132.6152,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": false,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
+    null,
+    null,
+    null,
     null,
     null
   ],
   "collection": [
-    {
-      "ID": "d3088057-15a1-4494-98db-82574f8605b0",
-      "name": "Emberdash",
-      "level": 3,
-      "experience": 0.0,
-      "baseHealth": 12.5,
-      "currentHealth": 12.5,
-      "speed": 2.7,
-      "damage": 2.8,
-      "nextLevelExpThreshold": 63.0750046,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": true,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
-    {
-      "ID": "f6d9ede3-c090-4a78-aa34-cd20aaa6c29f",
-      "name": "Cotton",
-      "level": 5,
-      "experience": 0.0,
-      "baseHealth": 15.0,
-      "currentHealth": 15.0,
-      "speed": 3.4,
-      "damage": 4.1,
-      "nextLevelExpThreshold": 132.6152,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": true,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
-    {
-      "ID": "d3088057-15a1-4494-98db-82574f8605b0",
-      "name": "Emberdash",
-      "level": 3,
-      "experience": 0.0,
-      "baseHealth": 12.5,
-      "currentHealth": 12.5,
-      "speed": 2.7,
-      "damage": 2.8,
-      "nextLevelExpThreshold": 63.075,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": true,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
-    {
-      "ID": "fe8af615-355c-4e91-ad5f-d0177bd43eea",
-      "name": "Aquaphion",
-      "level": 4,
-      "experience": 0.0,
-      "baseHealth": 13.75,
-      "currentHealth": 3.55000019,
-      "speed": 3.05,
-      "damage": 3.44999981,
-      "nextLevelExpThreshold": 91.4587555,
-      "expThresholdIncrease": 1.45,
-      "healthIncrease": 4.0,
-      "damageIncrease": 1.5,
-      "isActive": true,
-      "moveSet": [
-        {
-          "moveName": "Punch",
-          "moveType": "Basic",
-          "damage": 1.0,
-          "attackRate": 1.0,
-          "moveSpeed": 7.0
-        },
-        {
-          "moveName": "Thunder Punch",
-          "moveType": "Electric",
-          "damage": 1.25,
-          "attackRate": 1.0,
-          "moveSpeed": 11.0
-        },
-        null
-      ],
-      "activeMoveIndex": 0
-    },
+    null,
+    null,
     null,
     null,
     null,
@@ -314,8 +88,11 @@
       "Windwar Province": {
         "unlocked": true,
         "chapters": {
+          "Introduction": {
+            "unlocked": false
+          },
           "Chapter 1": {
-            "unlocked": true
+            "unlocked": false
           },
           "Chapter 2": {
             "unlocked": false

@@ -7,20 +7,23 @@ public class MonsterDragUI : MonoBehaviour
     private bool isDragging;
     private Vector3 initialPosition;
     private GameObject unitSpotObj;
+    private UnitSpot originalUnitSpot;
 
+    //slot to box
+    //slot to empty slot
     void Start()
     {
         initialPosition = transform.position;
     }
 
-    void Update()
-    {
-
-    }
-
     private void OnMouseDown()
     {
         isDragging = true;
+
+        if (unitSpotObj != null)
+        {
+            originalUnitSpot = unitSpotObj.GetComponent<UnitSpot>();
+        }
     }
 
     private void OnMouseDrag()
@@ -39,35 +42,37 @@ public class MonsterDragUI : MonoBehaviour
         if (unitSpotObj != null)
         {
             UnitSpot unitSpot = unitSpotObj.GetComponent<UnitSpot>();
+
             if (!unitSpot.IsOccupied)
             {
                 transform.position = new Vector3(unitSpotObj.transform.position.x, unitSpotObj.transform.position.y, -2);
-                unitSpot.SetOccupied(true);
+                unitSpot.SetOccupied(gameObject, true);
                 FileManager.SetMonsterActive(GetComponent<MonsterController>().monster, true);
+                if (originalUnitSpot != null)
+                {
+                    originalUnitSpot.SetOccupied(null, false);
+                }
             }
         }
         else
         {
             transform.position = initialPosition;
             FileManager.SetMonsterActive(GetComponent<MonsterController>().monster, false);
+
+            if (originalUnitSpot != null)
+            {
+                originalUnitSpot.SetOccupied(null, false);
+            }
         }
+
+        originalUnitSpot = null; 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isDragging)
+        if (isDragging && collision.CompareTag("UnitSpot"))
         {
-            if (collision.CompareTag("UnitSpot"))
-            {
-            }
-            if (collision.CompareTag("UnitSpot") && CompareTag("Monster"))
-            {
-                UnitSpot unitSpot = collision.GetComponent<UnitSpot>();
-                if (!unitSpot.IsOccupied)
-                {
-                    unitSpotObj = collision.gameObject;
-                }
-            }
+            unitSpotObj = collision.gameObject;
         }
     }
 
@@ -75,9 +80,6 @@ public class MonsterDragUI : MonoBehaviour
     {
         if (collision.CompareTag("UnitSpot") && isDragging && unitSpotObj == collision.gameObject)
         {
-            unitSpotObj.GetComponent<UnitSpot>().SetOccupied(false);
-            FileManager.SetMonsterActive(GetComponent<MonsterController>().monster, false);
-            transform.position = initialPosition;
             unitSpotObj = null;
         }
     }

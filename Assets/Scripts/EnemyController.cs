@@ -37,7 +37,8 @@ public class EnemyController : MonoBehaviour
         }
         if(carryingEmerald)
         {
-            GetComponent<LevelManager>().numberOfEmerald--;
+            
+            levelManager.GetComponent<LevelManager>().numberOfEmerald--;
         }
         Destroy(gameObject);
     }

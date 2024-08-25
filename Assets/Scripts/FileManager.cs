@@ -36,6 +36,9 @@ public static class FileManager
 
     public static GameFile gameFile = new GameFile();
 
+    //Key
+    private const string SaveKey = "GameFileSaveData";
+
     public static void SetMonsterActive(Monster monster, bool setActive)
     {
         LoadGameFile();
@@ -106,7 +109,7 @@ public static class FileManager
         LoadGameFile();
         if (GetFirstEmptyIndexInCollection() == -1 && GetFirstEmptyIndexInTeam() == -1)
         {
-            Debug.Log("No Space");
+            //no space
         }
         if (GetFirstEmptyIndexInTeam() != -1)
         {
@@ -125,26 +128,68 @@ public static class FileManager
         SaveGameFile();
     }
 
+    /*    public static void SaveGameFile()
+        {
+            string json = JsonConvert.SerializeObject(gameFile, Formatting.Indented);
+            File.WriteAllText(Application.dataPath + "/Game1.json", json);
+        }*/
+
     public static void SaveGameFile()
     {
         string json = JsonConvert.SerializeObject(gameFile, Formatting.Indented);
-        File.WriteAllText(Application.dataPath + "/Game1.json", json);
+        PlayerPrefs.SetString(SaveKey, json);
+        PlayerPrefs.Save();  // Ensure it's saved
     }
+    /*    public static void LoadGameFile()
+        {
+            string path = Application.dataPath + "/Game1.json";
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                gameFile = JsonConvert.DeserializeObject<GameFile>(json);
+            }
+            else
+            {
+                gameFile = new GameFile();
+            }
+        }*/
 
     public static void LoadGameFile()
     {
-        string path = Application.dataPath + "/Game1.json";
-        if (File.Exists(path))
+        if (PlayerPrefs.HasKey(SaveKey))
         {
-            string json = File.ReadAllText(path);
+            string json = PlayerPrefs.GetString(SaveKey);
             gameFile = JsonConvert.DeserializeObject<GameFile>(json);
         }
         else
         {
             gameFile = new GameFile();
         }
+
+        if (gameFile.progression.provinces.Count == 0)
+        {
+            InitializeProvinces();
+        }
+
     }
 
+    public static void InitializeProvinces()
+    {
+        gameFile.progression.provinces["Windwar Province"] = new ProvinceData { unlocked = true, chapters = new Dictionary<string, ChapterData>() };
+        gameFile.progression.provinces["Windwar Province"].chapters["Introduction"] = new ChapterData { unlocked = false };
+        gameFile.progression.provinces["Windwar Province"].chapters["Chapter 1"] = new ChapterData { unlocked = false };
+        gameFile.progression.provinces["Windwar Province"].chapters["Chapter 2"] = new ChapterData { unlocked = false };
+
+        gameFile.progression.provinces["Flamevale Province"] = new ProvinceData { unlocked = false, chapters = new Dictionary<string, ChapterData>() };
+        gameFile.progression.provinces["Flamevale Province"].chapters["Chapter 1"] = new ChapterData { unlocked = false };
+        gameFile.progression.provinces["Flamevale Province"].chapters["Chapter 2"] = new ChapterData { unlocked = false };
+    }
+
+    public static void ResetSave()
+    {
+        PlayerPrefs.DeleteKey(SaveKey);
+        gameFile = new GameFile();  
+    }
     public static void HealTeam()
     {
         LoadGameFile();
@@ -175,27 +220,203 @@ public static class FileManager
         }
     }
 
+    /* public static bool ProvinceUnlocked(string provinceName)
+     {
+         LoadGameFile();
+         if (gameFile.progression.provinces.ContainsKey(provinceName))
+         {
+             return gameFile.progression.provinces[provinceName].unlocked;
+         }
+         return false;
+     }
+
+     public static bool ChapterUnlocked(string provinceName, string chapterName)
+     {
+         LoadGameFile();
+         if (gameFile.progression.provinces.ContainsKey(provinceName))
+         {
+             var province = gameFile.progression.provinces[provinceName];
+             if (province.chapters.ContainsKey(chapterName))
+             {
+                 return province.chapters[chapterName].unlocked;
+             }
+         }
+         return false;
+     }
+     public static void UnlockChapter(string provinceName, string chapterName)
+     {
+         LoadGameFile();
+
+         if (gameFile.progression.provinces.ContainsKey(provinceName))
+         {
+             var province = gameFile.progression.provinces[provinceName];
+
+             if (province.chapters.ContainsKey(chapterName))
+             {
+                 province.chapters[chapterName].unlocked = true;
+                 SaveGameFile();
+             }
+             else
+             {
+                 Debug.Log($"Chapter '{chapterName}' not found in province '{provinceName}'.");
+             }
+         }
+         else
+         {
+             Debug.Log($"Province '{provinceName}' not found.");
+         }
+     }
+     public static void UnlockProvince(string provinceName)
+     {
+         LoadGameFile();
+
+         if (gameFile.progression.provinces.ContainsKey(provinceName))
+         {
+             var province = gameFile.progression.provinces[provinceName];
+
+             province.unlocked = true;
+
+             if (province.chapters.Count > 0)
+             {
+                 var firstChapter = province.chapters.Keys.GetEnumerator();
+                 if (firstChapter.MoveNext())
+                 {
+                     province.chapters[firstChapter.Current].unlocked = true;
+                     Debug.Log($"First chapter '{firstChapter.Current}' in province '{provinceName}' has been unlocked.");
+                 }
+             }
+
+             SaveGameFile();
+             Debug.Log($"Province '{provinceName}' has been unlocked.");
+         }
+         else
+         {
+             Debug.LogError($"Province '{provinceName}' not found.");
+         }
+     }*/
+
+
     public static bool ProvinceUnlocked(string provinceName)
     {
         LoadGameFile();
-        if (gameFile.progression.provinces.ContainsKey(provinceName))
-        {
-            return gameFile.progression.provinces[provinceName].unlocked;
-        }
-        return false;
+        Debug.Log(provinceName);
+        return PlayerPrefs.GetInt($"{provinceName}ProvinceUnlocked", 0) == 1;
     }
 
     public static bool ChapterUnlocked(string provinceName, string chapterName)
     {
         LoadGameFile();
+
+        return PlayerPrefs.GetInt($"{provinceName}{chapterName}Unlocked", 0) == 1;
+    }
+
+    public static void UnlockChapter(string provinceName, string chapterName)
+    {
+        LoadGameFile();
+
+
         if (gameFile.progression.provinces.ContainsKey(provinceName))
         {
             var province = gameFile.progression.provinces[provinceName];
+
             if (province.chapters.ContainsKey(chapterName))
             {
-                return province.chapters[chapterName].unlocked;
+                province.chapters[chapterName].unlocked = true;
+
+                PlayerPrefs.SetInt($"{provinceName}{chapterName}Unlocked", 1);
+                PlayerPrefs.Save();
+                SaveGameFile();
+            }
+            else
+            {
             }
         }
-        return false;
+        else
+        {
+        }
+    }
+
+    public static void UnlockProvince(string provinceName)
+    {
+        LoadGameFile();
+
+        if (gameFile.progression.provinces.ContainsKey(provinceName))
+        {
+            var province = gameFile.progression.provinces[provinceName];
+
+            province.unlocked = true;
+
+            PlayerPrefs.SetInt($"{provinceName}ProvinceUnlocked", 1);
+            PlayerPrefs.Save();
+
+            if (province.chapters.Count > 0)
+            {
+                var firstChapter = province.chapters.Keys.GetEnumerator();
+                if (firstChapter.MoveNext())
+                {
+                    province.chapters[firstChapter.Current].unlocked = true;
+
+                    PlayerPrefs.SetInt($"{provinceName}{firstChapter.Current}Unlocked", 1);
+                }
+            }
+
+            SaveGameFile(); 
+        }
+        else
+        {
+        }
+    }
+
+    //progression
+
+    public static void SaveProgression(ProgressionData progressionData)
+    {
+        PlayerPrefs.SetInt("WindwarProvinceUnlocked", progressionData.provinces["Windwar Province"].unlocked ? 1 : 0);
+        PlayerPrefs.SetInt("FlamevaleProvinceUnlocked", progressionData.provinces["Flamevale Province"].unlocked ? 1 : 0);
+
+        PlayerPrefs.SetInt("IntroUnlocked", progressionData.provinces["Windwar Province"].chapters["Introduction"].unlocked ? 1 : 0);
+        PlayerPrefs.SetInt("Chapter1Unlocked", progressionData.provinces["Windwar Province"].chapters["Chapter 1"].unlocked ? 1 : 0);
+        PlayerPrefs.SetInt("Chapter2Unlocked", progressionData.provinces["Windwar Province"].chapters["Chapter 2"].unlocked ? 1 : 0);
+
+        PlayerPrefs.SetInt("FlamevaleChapter1Unlocked", progressionData.provinces["Flamevale Province"].chapters["Chapter 1"].unlocked ? 1 : 0);
+        PlayerPrefs.SetInt("FlamevaleChapter2Unlocked", progressionData.provinces["Flamevale Province"].chapters["Chapter 2"].unlocked ? 1 : 0);
+
+        PlayerPrefs.Save(); 
+    }
+
+    public static ProgressionData LoadProgression()
+    {
+        var progressionData = new ProgressionData
+        {
+            provinces = new Dictionary<string, ProvinceData>
+            {
+                { "Windwar Province", LoadProvince("Windwar") },
+                { "Flamevale Province", LoadProvince("Flamevale") }
+            }
+        };
+
+        return progressionData;
+    }
+
+    private static ProvinceData LoadProvince(string provinceName)
+    {
+        return new ProvinceData
+        {
+            unlocked = PlayerPrefs.GetInt($"{provinceName}ProvinceUnlocked", 0) == 1,
+            chapters = new Dictionary<string, ChapterData>
+            {
+                { "Introduction", LoadChapter($"{provinceName}Intro") },
+                { "Chapter 1", LoadChapter($"{provinceName}Chapter1") },
+                { "Chapter 2", LoadChapter($"{provinceName}Chapter2") }
+            }
+        };
+    }
+
+    private static ChapterData LoadChapter(string chapterName)
+    {
+        return new ChapterData
+        {
+            unlocked = PlayerPrefs.GetInt($"{chapterName}Unlocked", 0) == 1
+        };
     }
 }

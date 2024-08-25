@@ -44,6 +44,13 @@ public class Monster
         this.healthIncrease = healthIncrease;
         this.damageIncrease = damageIncrease;
         isActive = false;
+        Move punch = new Move("Punch", "Basic", 1f, 1f, 7f);
+        Move thunderPunch = new Move("Thunder Punch", "Electric", 1.25f, 1f, 11f);
+
+        moveSet[0] = punch;
+        moveSet[1] = thunderPunch;
+        moveSet[2] = null;
+        activeMoveIndex = 0;
     }
     public Monster(string name, int level)
     {

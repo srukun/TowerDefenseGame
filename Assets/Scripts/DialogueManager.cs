@@ -35,7 +35,10 @@ public class DialogueManager : MonoBehaviour
         {
             sentences.Enqueue(line);
         }
-        levelManager.PauseGame();
+        if (levelManager != null)
+        {
+            levelManager.PauseGame();
+        }
         DisplayNextSentence();
     }
 
@@ -83,7 +86,10 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         animator.SetBool("isOpen", false);
-        levelManager.ResumeGame();
+        if(levelManager != null)
+        {
+            levelManager.ResumeGame();
+        }
         if (endScene)
         {
             EndDialogueForLevelComplete();

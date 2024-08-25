@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WindwarChapter2.unity
     guid: 94b02029a4ab2124da815e170cda4ff8
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 8500114721980fd4cb579cdca3b6b3f3
   m_configObjects: {}

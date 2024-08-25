@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using static FileManager;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class LevelManager : MonoBehaviour
     public Vector3 spawnPosition;
     public float spawnPositionDifference;
     public float movesetUIYOffset;
+    public string nextChapterName;
+    public string provinceName;
 
 
     [Header("UI References")]
@@ -31,30 +34,37 @@ public class LevelManager : MonoBehaviour
     public GameObject cameraObj;
     public GameObject moveset;
 
+    [Header("Level Menu")]
+    public TextMeshProUGUI waveCountdown;
+
     [Header("Dialogue")]
     public DialogueTrigger dialogueTrigger;
     public DialogueManager dialogueManager;
     private float spawnInterval;
-    private float spawnCountdown;
-    private int spawnedEnemies;
+    public float spawnCountdown;
+    public int spawnedEnemies;
     public bool gameIsPaused;
 
     [Header("Dialogue Lines")]
     public Dialogue winDialogue;
     public Dialogue loseDialogue;
-     
+    public Dialogue chapter3BossDialogue;
+
+    [Header("Chpater3 Boss Fight")]
+    public bool isChapter3Boss;
+
+
     private void Start()
     {
-
-
         dialogueTrigger.TriggerDialogue(false);
         InitializeLevel();
+
+        WaveCountdown();
     }
 
     private void Update()
     {
         if (gameIsPaused || hasGameEnded) return;
-
         HandleEnemySpawning();
         CheckGameOverCondition();
         CheckWinCondition();
@@ -71,7 +81,10 @@ public class LevelManager : MonoBehaviour
         HealTeam();
         SpawnTeam();
     }
-
+    public void WaveCountdown()
+    {
+        waveCountdown.text = "Enemies Left: " + (numberOfEnemies - spawnedEnemies - 1);
+    }
     private void HandleEnemySpawning()
     {
         if (spawnedEnemies >= numberOfEnemies) return;
@@ -87,25 +100,57 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int randNum = Random.Range(0, enemyPrefabs.Length);
-        GameObject enemy = Instantiate(enemyPrefabs[randNum], spawnPoint.position, spawnPoint.rotation);
+        if (isChapter3Boss && (spawnedEnemies % 5) == 0 && spawnedEnemies <= 30 && spawnedEnemies >= 3)
+        {
+            SpawnBoss();
+        }
 
-        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        if (spawnedEnemies < numberOfEnemies)
+        {
+            WaveCountdown(); 
 
-        enemyController.waypoints = waypoints;
-        enemyController.levelManager = this;
+            int randNum = Random.Range(0, 2);
+            GameObject enemy = Instantiate(enemyPrefabs[randNum], spawnPoint.position, spawnPoint.rotation);
 
-        string[] monsterNames = { "Cotton", "Leaflutter", "Emberdash", "Aquaphion" };
-        enemyController.thisCreature = new Monster(monsterNames[randNum], Random.Range(1, 6));
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            enemyController.waypoints = waypoints;
+            enemyController.levelManager = this;
+
+            string[] monsterNames = { "Cotton", "Leaflutter", "Emberdash" };
+            enemyController.thisCreature = new Monster(monsterNames[randNum], Random.Range(1, 6));
+
+            spawnedEnemies++;
+        }
+    }
+
+    private void SpawnBoss()
+    {
+        GameObject sheepBoss = Instantiate(enemyPrefabs[0], spawnPoint.position, spawnPoint.rotation);
+        sheepBoss.transform.localScale = Vector3.one * 2.25f;
+        EnemyController sheepController = sheepBoss.GetComponent<EnemyController>();
+        sheepController.waypoints = waypoints;
+        sheepController.levelManager = this;
+
+        sheepController.thisCreature = new Monster("Cotton", Random.Range(9, 10));
+        sheepController.thisCreature.baseHealth = 150;
+        sheepController.thisCreature.currentHealth = 150;
+        sheepController.thisCreature.speed = 0.75f;
+
+        SpriteRenderer renderer = sheepController.healthbar[1].GetComponent<SpriteRenderer>();
+        if (renderer != null)
+        {
+            renderer.color = new Color(54 / 255f, 110 / 255f, 231 / 255f);
+        }
 
         spawnedEnemies++;
     }
+
+
 
     private void CheckGameOverCondition()
     {
         if (missionType == "Defense" && numberOfEmerald <= 0)
         {
-            Debug.Log("test");
             GameOver();
         }
     }
@@ -143,9 +188,15 @@ public class LevelManager : MonoBehaviour
         gameIsPaused = true;
 
         var dialogueManager = FindObjectOfType<DialogueManager>();
+
+        if(provinceName != null && nextChapterName != null)
+        {
+            FileManager.UnlockChapter(provinceName, nextChapterName);
+        }
+
+
         dialogueManager.OnEndDialogueForLevelComplete += ReturnToMenu;
         dialogueManager.StartDialogue(winDialogue, true);
-
     }
 
     private void ReturnToMenu()
@@ -164,11 +215,14 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 spawnPos = spawnPosition;
         LoadGameFile();
-
+        spawnPos.x -= spawnPositionDifference;
         foreach (var creature in gameFile.team)
         {
-            if (creature == null || !CanSpawn(creature.ID)) continue;
-
+            spawnPos.x += spawnPositionDifference;
+            if (creature == null || !CanSpawn(creature.ID))
+            {
+                continue; 
+            }
             GameObject teamCreature = InstantiateTeamCreature(creature, spawnPos);
 
             var monsterController = teamCreature.GetComponent<MonsterController>();
@@ -182,7 +236,6 @@ public class LevelManager : MonoBehaviour
             spawnPos.y -= movesetUIYOffset;
             monsterController.CreateMoveset(moveset, cameraObj.GetComponent<Camera>().WorldToScreenPoint(spawnPos));
             spawnPos.y += movesetUIYOffset;
-            spawnPos.x += spawnPositionDifference;
         }
     }
 
@@ -234,5 +287,5 @@ public class LevelManager : MonoBehaviour
     {
         gameIsPaused = false;
     }
-
+    
 }

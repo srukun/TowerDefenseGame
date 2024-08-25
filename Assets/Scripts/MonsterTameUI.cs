@@ -46,7 +46,7 @@ public class MonsterTameUI : MonoBehaviour
             if (collision.CompareTag("Enemy") && CompareTag("Card"))
             {
                 Monster monster = collision.GetComponent<EnemyController>().thisCreature;
-                if (monster.currentHealth < monster.baseHealth/2)
+                if (monster.currentHealth < monster.baseHealth/2 && monster.baseHealth < 100)
                 {
                     FileManager.TameMonster(monster.GetMonster());
                     collision.GetComponent<EnemyController>().RemoveEnemyFromScene();
