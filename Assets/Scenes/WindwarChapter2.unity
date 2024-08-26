@@ -11122,6 +11122,7 @@ MonoBehaviour:
   levelManager: {fileID: 2048869211}
   isTyping: 0
   endScene: 0
+  isDialoguePlaying: 0
 --- !u!4 &1776855116
 Transform:
   m_ObjectHideFlags: 0

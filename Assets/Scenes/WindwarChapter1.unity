@@ -657,6 +657,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7582440542577296668, guid: f594e7bf327969d40bcf1992136c3ce0, type: 3}
   m_PrefabInstance: {fileID: 1784553950}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &456184237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456184236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa88c8df44dc424a9d0b19a74caee07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &459647510
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +919,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.1
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5448,6 +5460,7 @@ MonoBehaviour:
   levelManager: {fileID: 2048869211}
   isTyping: 0
   endScene: 0
+  isDialoguePlaying: 0
 --- !u!4 &1776855116
 Transform:
   m_ObjectHideFlags: 0
@@ -5608,6 +5621,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6183706565176589194, guid: f594e7bf327969d40bcf1992136c3ce0, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183706565176589194, guid: f594e7bf327969d40bcf1992136c3ce0, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7582440542577296668, guid: f594e7bf327969d40bcf1992136c3ce0, type: 3}
       propertyPath: m_Name
       value: 'Canvas '
@@ -5615,7 +5636,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7582440542577296668, guid: f594e7bf327969d40bcf1992136c3ce0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 456184237}
   m_SourcePrefab: {fileID: 100100000, guid: f594e7bf327969d40bcf1992136c3ce0, type: 3}
 --- !u!1 &1811625987
 GameObject:

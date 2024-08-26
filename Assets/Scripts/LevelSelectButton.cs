@@ -15,6 +15,7 @@ public class LevelSelectButton : MonoBehaviour
     void Start()
     {
         SetUp();
+
     }
 
     void Update()
@@ -33,14 +34,21 @@ public class LevelSelectButton : MonoBehaviour
                 lockedBlockImage.SetActive(false);
             }
         }
-        if(buttonType == "ProvinceSelect")
+        if (buttonType == "ProvinceSelect")
         {
-            bool unlocked = FileManager.ProvinceUnlocked(provience);
-            Debug.Log(unlocked);
-            if (unlocked)
+            bool provinceUnlocked = FileManager.gameFile.progression.provinces.ContainsKey(provience);
+            if (provinceUnlocked)
             {
-                lockedText.SetActive(false);
-                lockedBlockImage.SetActive(false);
+                bool unlocked = FileManager.ProvinceUnlocked(provience);
+                Debug.Log(provience + " unlocked: " + unlocked);
+
+
+
+                if (unlocked)
+                {
+                    lockedText.SetActive(false);
+                    lockedBlockImage.SetActive(false);
+                }
             }
         }
 

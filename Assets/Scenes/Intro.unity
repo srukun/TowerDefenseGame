@@ -2060,6 +2060,7 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   isTyping: 0
   endScene: 0
+  isDialoguePlaying: 0
 --- !u!1 &558942434
 GameObject:
   m_ObjectHideFlags: 0

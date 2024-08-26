@@ -12,13 +12,17 @@ public class MenuNavagation : MonoBehaviour
     public TextMeshProUGUI pauseText;
     public GameObject tutorialUI;
     public GameObject dialogueUI;
+
+    public void Start()
+    {
+
+    }
     public void LoadMenu()
     {
         SceneManager.LoadScene(0);
     }
     public void LoadChapterSelect()
     {
-        FileManager.InitializeProvinces();
         bool unlocked = FileManager.ChapterUnlocked("Windwar Province", "Chapter 1");
         if (!unlocked)
         {
@@ -50,13 +54,12 @@ public class MenuNavagation : MonoBehaviour
         LevelManager levelManager = FindObjectOfType<LevelManager>();
         DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
 
-        if (DialogueIsActive())
+        if (dialogueManager.isDialoguePlaying)
         {
-            pauseText.text = "Pause";
             return;
         }
 
-        if (!levelManager.gameIsPaused)
+        if (!levelManager.gameIsPaused && !dialogueManager.isDialoguePlaying)
         {
             levelManager.PauseGame();
             pauseText.text = "Unpause";
@@ -73,9 +76,9 @@ public class MenuNavagation : MonoBehaviour
         DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
         LevelManager levelManager = FindObjectOfType<LevelManager>();
 
-        if (DialogueIsActive())
+
+        if (dialogueManager.isDialoguePlaying)
         {
-            tutorialUI.SetActive(false);
             return;
         }
 

@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
     public bool isTyping;
     public event Action OnEndDialogueForLevelComplete;
     public bool endScene;
+    public bool isDialoguePlaying;
     void Start()
     {
         sentences = new Queue<DialogueLine>();
@@ -27,6 +28,8 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue, bool endScene)
     {
+        isDialoguePlaying = true;
+
         this.endScene = endScene;
         animator.SetBool("isOpen", true);
         sentences.Clear();
@@ -64,11 +67,6 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
-/*            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                dialogueText.text = sentence;
-                break;
-            }*/
             dialogueText.text += letter;
             yield return new WaitForSeconds(0.025f);
         }
@@ -86,7 +84,8 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         animator.SetBool("isOpen", false);
-        if(levelManager != null)
+        isDialoguePlaying = false;
+        if (levelManager != null)
         {
             levelManager.ResumeGame();
         }

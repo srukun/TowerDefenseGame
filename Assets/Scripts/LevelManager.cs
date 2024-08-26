@@ -60,6 +60,7 @@ public class LevelManager : MonoBehaviour
         InitializeLevel();
 
         WaveCountdown();
+
     }
 
     private void Update()
